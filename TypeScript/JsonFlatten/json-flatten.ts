@@ -32,25 +32,29 @@
  *
  */
 
-const generateKey = (path: string, key: string): string =>
-  path.length === 0 ? key : `${path}.${key}`;
+import { JsonKey, JsonObject, JsonValue } from './json-flatten.model';
+
+const concatPath = (
+  path: ReadonlyArray<string>,
+  key: string
+): ReadonlyArray<string> => [...path, key];
+const generatePath = (path: ReadonlyArray<string>): string => path.join('.');
 
 export const compute = (
-  input: { [key: string]: any } = {},
-  path: string = ''
-): {
-  [key: string]: string;
-} => {
-  return input.entries().reduce(
-    (carry: { [key: string]: any }, current: { [key: string]: any }) => ({
-      ...carry,
-      ...(typeof current[1] !== 'object'
-        ? {
-            [generateKey(path, current[0])]: current[1]
-          }
-        : compute(current[1], generateKey(path, current[0])))
-    }),
+  input: JsonObject,
+  path: ReadonlyArray<string> = []
+): JsonObject => {
+  return Object.entries(input).reduce(
+    (carry: JsonObject, current: [JsonKey, JsonValue]) =>
+      ({
+        ...carry,
+        ...(typeof current[1] !== 'object'
+          ? {
+              [generatePath(concatPath(path, current[0]))]: current[1]
+            }
+          : compute(current[1] as JsonObject, concatPath(path, current[0])))
+      } as JsonObject),
 
-    {}
+    {} as JsonObject
   );
 };

@@ -1,14 +1,16 @@
-import { describe, test } from './common';
+import { describe, test } from './test.utils';
 import { compute } from './json-flatten';
+import { JsonObject } from './json-flatten.model';
 
 /////////////
 //// TDD ////
 /////////////
-
-describe('test compute', () => {
-  test<{ [key: string]: any }>(
-    'compute([]) => []',
-    () => compute([]),
-    (result: { [key: string]: any }) => result.length === 0
-  );
-});
+export const execTestSuite = () =>
+  describe('execTestSuite: JsonFlatten', () => {
+    describe('test compute', () =>
+      test<JsonObject>(
+        'compute({}) => {}',
+        () => compute({} as JsonObject),
+        (result: JsonObject) => !result.length
+      ));
+  });
