@@ -13,6 +13,7 @@ public class NewLinq
         return output;
     }
     
+    // What can we replace Func<int, bool> with ? => Predicate
     public IEnumerable<int> Where(IEnumerable<int> list, Func<int, bool> predicate)
     {
         var output = new List<int>();
@@ -39,4 +40,7 @@ public class NewLinq
 
         return false;
     }
+    
+    // To go further
+    // How to make the functions usable for any kind of object other than int
 }
