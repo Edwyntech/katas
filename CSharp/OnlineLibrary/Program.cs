@@ -1,4 +1,3 @@
-using Microsoft.EntityFrameworkCore;
 using OnlineLibrary;
 using OnlineLibrary.Services;
 
@@ -11,9 +10,6 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IBookService, BookService>();
-
-var connectionString = builder.Configuration.GetConnectionString("AppDb");
-builder.Services.AddDbContext<OnlineLibraryContext>(x => x.UseSqlServer(connectionString));
 
 var app = builder.Build();
 
@@ -31,3 +27,15 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+// var books = new List<Book>
+// {
+//     new Book { Id = 1, Author = "Orwell", Title = "1984"},
+//     new Book { Id = 2, Author = "Rowling", Title = "Harry Potter and the Philosopher Stone"},
+//     new Book { Id = 3, Author = "Tolkien", Title = "The Lord of the Rings"},
+// };
+//
+// var customers = new List<Customer>
+// {
+//     new Customer { Id = 1, FirstName = "Jerome", LastName = "Cayrol"}
+// };
